@@ -1,60 +1,508 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-    <title>Brett Rush | Computer Science Portfolio</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 50px;
-            background-color: #111;
-            color: #f4f4f4;
-        }
-        h1, h2 {
-            color: #00bcd4;
-        }
-        a {
-            color: #4fc3f7;
-            text-decoration: none;
-        }
-        .section {
-            margin-bottom: 40px;
-        }
-        .card {
-            background-color: #1c1c1c;
-            padding: 20px;
-            border-radius: 8px;
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Brett Rush | CS-499 ePortfolio</title>
+  <meta name="description" content="CS-499 Computer Science Capstone ePortfolio for Brett Rush (SNHU)." />
+
+  <style>
+    :root{
+      --bg:#0b0f14;
+      --panel:#121a23;
+      --panel2:#0f1620;
+      --text:#e9eef5;
+      --muted:#a9b6c6;
+      --line:rgba(255,255,255,.10);
+      --accent:#46c2ff;
+      --accent2:#7ee787;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 16px;
+      --max: 1050px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: var(--sans);
+      background:
+        radial-gradient(1000px 500px at 20% 0%, rgba(70,194,255,.15), transparent 60%),
+        radial-gradient(900px 400px at 90% 10%, rgba(126,231,135,.10), transparent 55%),
+        var(--bg);
+      color:var(--text);
+      line-height:1.6;
+    }
+
+    a{ color:var(--accent); text-decoration:none; }
+    a:hover{ text-decoration:underline; }
+
+    header{
+      position:sticky;
+      top:0;
+      z-index:50;
+      background: rgba(11,15,20,.70);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 14px 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width: 210px;
+    }
+    .dot{
+      width:12px; height:12px;
+      border-radius:999px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 0 18px rgba(70,194,255,.35);
+    }
+    .brand strong{ font-size: 15px; letter-spacing:.2px; }
+    .brand span{ color: var(--muted); font-size: 13px; display:block; margin-top:2px; }
+
+    .links{
+      display:flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content:flex-end;
+    }
+    .chip{
+      border:1px solid var(--line);
+      background: rgba(18,26,35,.65);
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 13px;
+      color: var(--text);
+      white-space: nowrap;
+    }
+    .chip:hover{ border-color: rgba(70,194,255,.45); text-decoration:none; }
+
+    main{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 26px 18px 56px;
+    }
+
+    .hero{
+      display:grid;
+      grid-template-columns: 1.3fr .7fr;
+      gap: 18px;
+      align-items: stretch;
+      margin: 18px 0 22px;
+    }
+    @media (max-width: 900px){
+      .hero{ grid-template-columns: 1fr; }
+      .brand span{ display:none; }
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(18,26,35,.95), rgba(15,22,32,.90));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .hero .card{
+      padding: 22px;
+    }
+    h1{
+      margin: 0 0 8px;
+      font-size: 34px;
+      line-height: 1.1;
+      letter-spacing: .2px;
+    }
+    .subtitle{
+      color: var(--muted);
+      margin: 0 0 14px;
+      font-size: 15px;
+    }
+    .summary{
+      margin: 0;
+      color: var(--text);
+      font-size: 15px;
+    }
+
+    .mini{
+      padding: 18px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+    .mini h2{
+      margin: 0;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--muted);
+    }
+    .mini .row{
+      display:flex;
+      flex-wrap: wrap;
+      gap:10px;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: rgba(18,26,35,.8);
+      color: var(--text);
+      font-size: 14px;
+      text-decoration:none;
+      transition: transform .08s ease;
+    }
+    .btn:hover{
+      border-color: rgba(70,194,255,.45);
+      text-decoration:none;
+      transform: translateY(-1px);
+    }
+    .btn.primary{
+      background: linear-gradient(135deg, rgba(70,194,255,.20), rgba(126,231,135,.15));
+      border-color: rgba(70,194,255,.35);
+    }
+    .btn small{
+      font-family: var(--mono);
+      opacity:.8;
+      font-size: 12px;
+    }
+
+    section{
+      margin-top: 18px;
+    }
+    .section-title{
+      display:flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 24px 0 10px;
+    }
+    .section-title h2{
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: .2px;
+    }
+    .section-title p{
+      margin:0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+    }
+    .panel{
+      grid-column: span 12;
+      padding: 18px;
+    }
+    @media (min-width: 900px){
+      .panel.half{ grid-column: span 6; }
+      .panel.third{ grid-column: span 4; }
+    }
+
+    .panel h3{
+      margin: 0 0 6px;
+      font-size: 16px;
+    }
+    .panel .meta{
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .list{
+      margin: 0;
+      padding-left: 18px;
+      color: var(--text);
+    }
+    .list li{ margin: 6px 0; }
+    .file-links{
+      display:flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .note{
+      border-left: 3px solid rgba(70,194,255,.6);
+      padding: 10px 12px;
+      background: rgba(70,194,255,.06);
+      border-radius: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 10px;
+    }
+
+    footer{
+      margin-top: 34px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+      display:flex;
+      justify-content:space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .smallmono{ font-family: var(--mono); }
+  </style>
 </head>
+
 <body>
+  <header>
+    <div class="nav">
+      <div class="brand">
+        <div class="dot"></div>
+        <div>
+          <strong>Brett Rush</strong>
+          <span>CS-499 ePortfolio • SNHU • Computer Science</span>
+        </div>
+      </div>
 
-<h1>Brett Rush</h1>
-<p>Bachelor of Science in Computer Science</p>
+      <nav class="links" aria-label="Primary">
+        <a class="chip" href="#self-assessment">Self-Assessment</a>
+        <a class="chip" href="#code-review">Code Review</a>
+        <a class="chip" href="#sde">Software Design &amp; Engineering</a>
+        <a class="chip" href="#ads">Algorithms &amp; Data Structures</a>
+        <a class="chip" href="#db">Databases</a>
+      </nav>
+    </div>
+  </header>
 
-<div class="section card">
-<h2>Professional Self-Assessment</h2>
-<a href="self-assessment.pdf">View Self-Assessment</a>
-</div>
+  <main>
+    <!-- HERO -->
+    <div class="hero">
+      <div class="card">
+        <h1>Brett Rush</h1>
+        <p class="subtitle">Bachelor of Science in Computer Science • Capstone ePortfolio (CS-499)</p>
+        <p class="summary">
+          This portfolio showcases three enhanced artifacts from my Computer Science program:
+          software design &amp; engineering, algorithms &amp; data structures, and databases.
+          Each section includes the narrative reflection and the original/enhanced project files.
+        </p>
 
-<div class="section card">
-<h2>Software Design & Engineering</h2>
-<a href="software-design/narrative.pdf">View Narrative</a>
-</div>
+        <div class="note">
+          <strong>Tip:</strong> If any link shows a 404, it means the file path doesn’t match what’s in the repo.
+          Make sure your folder names and filenames match exactly (including spaces/case).
+        </div>
+      </div>
 
-<div class="section card">
-<h2>Algorithms & Data Structures</h2>
-<a href="algorithms-data-structures/narrative.pdf">View Narrative</a>
-</div>
+      <div class="card mini">
+        <h2>Quick Links</h2>
+        <div class="row">
+          <!-- UPDATE THESE PATHS to match your repo structure -->
+          <a class="btn primary" href="Self-Assessment/Module%207%20Professional%20Self.docx">Professional Self-Assessment</a>
+          <a class="btn" href="Code-Review-Video/README.html">Code Review Video</a>
+          <a class="btn" href="https://github.com/BrettRush/CS-499-Homepage" target="_blank" rel="noopener">GitHub Repository</a>
+        </div>
+        <div class="row">
+          <a class="btn" href="#sde"><small>01</small> Software Design</a>
+          <a class="btn" href="#ads"><small>02</small> Algorithms</a>
+          <a class="btn" href="#db"><small>03</small> Databases</a>
+        </div>
+      </div>
+    </div>
 
-<div class="section card">
-<h2>Databases</h2>
-<a href="databases/narrative.pdf">View Narrative</a>
-</div>
+    <!-- SELF-ASSESSMENT -->
+    <section id="self-assessment">
+      <div class="section-title">
+        <h2>Professional Self-Assessment</h2>
+        <p>Summary of skills, goals, and preparation for professional work</p>
+      </div>
 
-<div class="section card">
-<h2>Code Review Video</h2>
-<a href="YOUR_YOUTUBE_LINK_HERE">Watch Code Review</a>
-</div>
+      <div class="grid">
+        <div class="card panel half">
+          <h3>Document</h3>
+          <p class="meta">A holistic introduction to my experience, strengths, and program outcomes.</p>
+          <div class="file-links">
+            <!-- UPDATE PATH + FILENAME -->
+            <a class="btn primary" href="Self-Assessment/Module%207%20Professional%20Self.docx">Open Self-Assessment (DOCX)</a>
+          </div>
+          <div class="note">
+            If you’d rather display this as a web page, convert the DOCX to PDF and link the PDF here too.
+          </div>
+        </div>
 
+        <div class="card panel half">
+          <h3>Program Outcomes Covered</h3>
+          <p class="meta">High-level alignment across communication, design, algorithms, databases, and security.</p>
+          <ul class="list">
+            <li>Professional communication tailored to technical and non-technical audiences</li>
+            <li>Engineering practices and tool usage to deliver value</li>
+            <li>Algorithmic decision-making and trade-offs</li>
+            <li>Database design and CRUD operations</li>
+            <li>Security mindset (validation, least privilege, secure handling of data)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- CODE REVIEW -->
+    <section id="code-review">
+      <div class="section-title">
+        <h2>Informal Code Review</h2>
+        <p>Video walkthrough of existing functionality, analysis, and planned enhancements</p>
+      </div>
+
+      <div class="grid">
+        <div class="card panel">
+          <h3>Video Link</h3>
+          <p class="meta">
+            Host the video on YouTube (recommended) and link it here. GitHub has file size limits for videos.
+          </p>
+          <div class="file-links">
+            <!-- OPTION A: link to a local HTML/README with the video URL -->
+            <a class="btn primary" href="Code-Review-Video/README.html">View Code Review Link</a>
+
+            <!-- OPTION B: if you want, paste your YouTube link directly below and use this button instead -->
+            <!-- <a class="btn primary" href="https://youtu.be/YOUR_VIDEO_ID" target="_blank" rel="noopener">Watch on YouTube</a> -->
+          </div>
+          <div class="note">
+            If you don’t want to make a README.html, you can just create a simple README.md and link to it.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOFTWARE DESIGN & ENGINEERING -->
+    <section id="sde">
+      <div class="section-title">
+        <h2>Software Design &amp; Engineering</h2>
+        <p>Artifact + narrative + original vs enhanced files</p>
+      </div>
+
+      <div class="grid">
+        <div class="card panel third">
+          <h3>Artifact</h3>
+          <p class="meta">CS-360 Weight Tracker (Android)</p>
+          <ul class="list">
+            <li>Improved structure, maintainability, and reliability</li>
+            <li>Focused enhancements aligned with course outcomes</li>
+          </ul>
+        </div>
+
+        <div class="card panel third">
+          <h3>Narrative</h3>
+          <p class="meta">Reflection on selection, improvements, outcomes, and learning</p>
+          <div class="file-links">
+            <!-- UPDATE PATH + FILENAME -->
+            <a class="btn primary" href="Software-Design-Engineering/Narrative_Software_Design.html">View Narrative</a>
+          </div>
+        </div>
+
+        <div class="card panel third">
+          <h3>Downloads</h3>
+          <p class="meta">Original + Enhanced project files</p>
+          <div class="file-links">
+            <!-- UPDATE PATH + FILENAME -->
+            <a class="btn" href="Software-Design-Engineering/CS%20360%20Module%207%20Project%203.zip">Original (ZIP)</a>
+            <a class="btn primary" href="Software-Design-Engineering/UPDATED%20CS%20360%20Module%207%20Project%204.zip">Enhanced (ZIP)</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ALGORITHMS & DATA STRUCTURES -->
+    <section id="ads">
+      <div class="section-title">
+        <h2>Algorithms &amp; Data Structures</h2>
+        <p>CS-330 OpenGL scene transformation enhancement</p>
+      </div>
+
+      <div class="grid">
+        <div class="card panel third">
+          <h3>Artifact</h3>
+          <p class="meta">CS-330 OpenGL Scene Transformation Project</p>
+          <ul class="list">
+            <li>Scene management improvements</li>
+            <li>Transformation logic refinements</li>
+            <li>More maintainable rendering workflow</li>
+          </ul>
+        </div>
+
+        <div class="card panel third">
+          <h3>Narrative</h3>
+          <p class="meta">Before vs After + reflection</p>
+          <div class="file-links">
+            <!-- UPDATE PATH + FILENAME -->
+            <a class="btn primary" href="Algorithms-Data-Structures/Narrative_Algorithms.html">View Narrative</a>
+          </div>
+        </div>
+
+        <div class="card panel third">
+          <h3>Downloads</h3>
+          <p class="meta">Original + Enhanced project files</p>
+          <div class="file-links">
+            <!-- UPDATE PATH + FILENAME -->
+            <a class="btn" href="Algorithms-Data-Structures/CS%20330%20Milestone%203%20(Old).zip">Original (ZIP)</a>
+            <a class="btn primary" href="Algorithms-Data-Structures/NEW%20UPDATED%20CS%20330%20Milestone%204.zip">Enhanced (ZIP)</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DATABASES -->
+    <section id="db">
+      <div class="section-title">
+        <h2>Databases</h2>
+        <p>CS-340 MongoDB Animal Shelter (PyMongo CRUD module + dashboard)</p>
+      </div>
+
+      <div class="grid">
+        <div class="card panel third">
+          <h3>Artifact</h3>
+          <p class="meta">CS-340 Animal Shelter Project (MongoDB)</p>
+          <ul class="list">
+            <li>Reusable CRUD module with validation + safer operations</li>
+            <li>Improved maintainability and configuration</li>
+          </ul>
+        </div>
+
+        <div class="card panel third">
+          <h3>Narrative</h3>
+          <p class="meta">Database concepts + improvement reflection</p>
+          <div class="file-links">
+            <!-- UPDATE PATH + FILENAME -->
+            <a class="btn primary" href="Databases/Narrative_Databases.html">View Narrative</a>
+          </div>
+        </div>
+
+        <div class="card panel third">
+          <h3>Downloads</h3>
+          <p class="meta">Original + Enhanced project files</p>
+          <div class="file-links">
+            <!-- UPDATE PATH + FILENAME -->
+            <a class="btn" href="Databases/CS%20340%20ProjectTwo.zip">Original (ZIP)</a>
+            <a class="btn primary" href="Databases/UPDATES%20CS%20340%20ProjectTwo.zip">Enhanced (ZIP)</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div>© <span id="year"></span> Brett Rush • CS-499 ePortfolio</div>
+      <div class="smallmono">Last updated: <span id="lastUpdated"></span></div>
+    </footer>
+  </main>
+
+  <script>
+    // Simple footer info (no tracking, no external calls)
+    document.getElementById("year").textContent = new Date().getFullYear();
+    document.getElementById("lastUpdated").textContent = new Date().toLocaleDateString(undefined, {
+      year: "numeric", month: "short", day: "2-digit"
+    });
+  </script>
 </body>
 </html>
